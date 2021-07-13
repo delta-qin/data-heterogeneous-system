@@ -1,0 +1,20 @@
+server:
+  port: 8009
+
+spring:
+  datasource:
+    presto:
+      name: presto
+      type: org.apache.tomcat.jdbc.pool.DataSource
+      driver-class-name: com.facebook.presto.jdbc.PrestoDriver
+      jdbc-url: jdbc:presto://118.195.132.110:8080
+      username: root
+feign:
+  okhttp:
+    enabled: true
+#ribbon:
+#  ConnectTimeout: 3000 #服务请求连接超时时间（毫秒）
+#  ReadTimeout: 3000 #服务请求处理超时时间（毫秒）
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000

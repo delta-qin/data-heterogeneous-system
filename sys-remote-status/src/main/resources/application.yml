@@ -1,0 +1,79 @@
+server:
+  port: 8004
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  rabbitmq: #rabbitmq相关配置
+    host: ip
+    port: 5672
+    username: deltaqin
+    password: deltaqin
+    virtual-host: /
+  shardingsphere:
+    datasource:
+      names: m1,m2
+      #      配置数据源
+      m1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://ip:3306/heterogeneous1?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: QZT1234567890
+      m2:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://ip:3307/heterogeneous2?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: QZT1234567890
+      #      分库策略（水平）
+    sharding:
+      default-database-strategy:
+        inline:
+          sharding-column: cid
+          algorithm-expression: m$->{cid % 2 + 1}
+      #      分表策略（水平）
+      tables:
+        #        sys_admin分表策略
+        #        数据结点包括:m1.sys_admin_1,m1.sys_admin_2,m2.sys_admin_1,m2.sys_admin_2,
+        sys_remote_influx_info:
+          actual-data-nodes: m$->{1..2}.sys_remote_influx_info
+          table-strategy:
+            inline:
+              #              分片策略包括分片键和分片算法
+              sharding-column: id
+              algorithm-expression: sys_remote_influx_info
+          #          指定表的主键，且生成策略为SNOWFLAKE
+          key-generator:
+            type: SNOWFLAKE
+            column: id
+        sys_remote_influx_panal:
+          actual-data-nodes: m$->{1..2}.sys_remote_influx_panal
+          table-strategy:
+            inline:
+              #              分片策略包括分片键和分片算法
+              sharding-column: id
+              algorithm-expression: sys_remote_influx_panal
+          #          指定表的主键，且生成策略为SNOWFLAKE
+          key-generator:
+            type: SNOWFLAKE
+            column: id
+
+        sys_remote_database_predict:
+          actual-data-nodes: m$->{1..2}.sys_remote_database_predict
+          table-strategy:
+            inline:
+              #              分片策略包括分片键和分片算法
+              sharding-column: id
+              algorithm-expression: sys_remote_database_predict
+          #          指定表的主键，且生成策略为SNOWFLAKE
+          key-generator:
+            type: SNOWFLAKE
+            column: id
+
+      #     指定公共表
+#      broadcast-tables[0]: sys_remote_database_type
+
+
+    props:
+      sql:
+        show: true

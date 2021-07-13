@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deltaqin.sys.mapper.SysRemoteInfluxPanalMapper">
+  <resultMap id="BaseResultMap" type="com.deltaqin.sys.model.SysRemoteInfluxPanal">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="cid" jdbcType="BIGINT" property="cid" />
+    <result column="db_id" jdbcType="BIGINT" property="dbId" />
+    <result column="sql_statement" jdbcType="VARCHAR" property="sqlStatement" />
+    <result column="panal_type_id" jdbcType="BIGINT" property="panalTypeId" />
+    <result column="panal_name" jdbcType="VARCHAR" property="panalName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cid, db_id, sql_statement, panal_type_id, panal_name
+  </sql>
+  <select id="selectByExample" parameterType="com.deltaqin.sys.model.SysRemoteInfluxPanalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_remote_influx_panal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_remote_influx_panal
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_remote_influx_panal
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deltaqin.sys.model.SysRemoteInfluxPanalExample">
+    delete from sys_remote_influx_panal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deltaqin.sys.model.SysRemoteInfluxPanal">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_remote_influx_panal (cid, db_id, sql_statement, 
+      panal_type_id, panal_name)
+    values (#{cid,jdbcType=BIGINT}, #{dbId,jdbcType=BIGINT}, #{sqlStatement,jdbcType=VARCHAR}, 
+      #{panalTypeId,jdbcType=BIGINT}, #{panalName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deltaqin.sys.model.SysRemoteInfluxPanal">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_remote_influx_panal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="dbId != null">
+        db_id,
+      </if>
+      <if test="sqlStatement != null">
+        sql_statement,
+      </if>
+      <if test="panalTypeId != null">
+        panal_type_id,
+      </if>
+      <if test="panalName != null">
+        panal_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        #{cid,jdbcType=BIGINT},
+      </if>
+      <if test="dbId != null">
+        #{dbId,jdbcType=BIGINT},
+      </if>
+      <if test="sqlStatement != null">
+        #{sqlStatement,jdbcType=VARCHAR},
+      </if>
+      <if test="panalTypeId != null">
+        #{panalTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="panalName != null">
+        #{panalName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deltaqin.sys.model.SysRemoteInfluxPanalExample" resultType="java.lang.Long">
+    select count(*) from sys_remote_influx_panal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_remote_influx_panal
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=BIGINT},
+      </if>
+      <if test="record.dbId != null">
+        db_id = #{record.dbId,jdbcType=BIGINT},
+      </if>
+      <if test="record.sqlStatement != null">
+        sql_statement = #{record.sqlStatement,jdbcType=VARCHAR},
+      </if>
+      <if test="record.panalTypeId != null">
+        panal_type_id = #{record.panalTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.panalName != null">
+        panal_name = #{record.panalName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_remote_influx_panal
+    set id = #{record.id,jdbcType=BIGINT},
+      cid = #{record.cid,jdbcType=BIGINT},
+      db_id = #{record.dbId,jdbcType=BIGINT},
+      sql_statement = #{record.sqlStatement,jdbcType=VARCHAR},
+      panal_type_id = #{record.panalTypeId,jdbcType=BIGINT},
+      panal_name = #{record.panalName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deltaqin.sys.model.SysRemoteInfluxPanal">
+    update sys_remote_influx_panal
+    <set>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=BIGINT},
+      </if>
+      <if test="dbId != null">
+        db_id = #{dbId,jdbcType=BIGINT},
+      </if>
+      <if test="sqlStatement != null">
+        sql_statement = #{sqlStatement,jdbcType=VARCHAR},
+      </if>
+      <if test="panalTypeId != null">
+        panal_type_id = #{panalTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="panalName != null">
+        panal_name = #{panalName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deltaqin.sys.model.SysRemoteInfluxPanal">
+    update sys_remote_influx_panal
+    set cid = #{cid,jdbcType=BIGINT},
+      db_id = #{dbId,jdbcType=BIGINT},
+      sql_statement = #{sqlStatement,jdbcType=VARCHAR},
+      panal_type_id = #{panalTypeId,jdbcType=BIGINT},
+      panal_name = #{panalName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

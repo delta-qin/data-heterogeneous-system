@@ -1,0 +1,86 @@
+server:
+  port: 8003
+spring:
+  application:
+    name: sys-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true #使用小写service-id
+      routes: #配置路由路径
+        - id: sys-auth #路由的ID
+          uri: lb://sys-auth #匹配后路由地址
+          predicates: # （谓词工厂）路径相匹配的进行路由
+            - Path=/sys-auth/**
+#          filters: # （过滤器工厂）
+#            - StripPrefix=1 # 对指定数量的路径前缀进行去除的过滤器。这里就是去掉sys-auth
+        - id: sys-user
+          uri: lb://sys-user
+          predicates:
+            - Path=/sys-user/**
+        - id: sys-influx
+          uri: lb://sys-influx
+          predicates:
+            - Path=/sys-influx/**
+        - id: sys-remotedata
+          uri: lb://sys-remotedata
+          predicates:
+            - Path=/sys-remotedata/**
+      default-filters:
+        - StripPrefix=1
+
+#    sentinel:
+#      transport:
+#        dashboard: sentinel.deltaqin.shanghai.cosmoplat.com #配置Sentinel dashboard地址
+##        dashboard: ip:33828 #配置Sentinel dashboard地址
+#        port: 8719
+#      datasource:
+#        ds1:
+#          nacos:
+#            server-addr: localhost:8848
+##            server-addr: ip:32925
+#            dataId: ${spring.application.name}
+#            groupId: DEFAULT_GROUP
+#            data-type: json
+#            rule-type: flow
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+#          jwk-set-uri: 'http://ip:32976/oauth/rsa/publicKey' #配置RSA的公钥访问地址
+          jwk-set-uri: 'http://localhost:8002/oauth/rsa/publicKey' #配置RSA的公钥访问地址
+
+  # 加载所有的端点/默认只加载了 info / health
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # 客户端的所有监控端点都暴露给SBA服务端；
+  endpoint:
+    health:
+      show-details: ALWAYS  # 总是展示详细的健康信息。
+
+
+secure:
+  ignore:
+    urls: #配置白名单路径
+      - "/doc.html"
+      - "/swagger-resources/**"
+      - "/swagger/**"
+      - "/**/v2/api-docs"
+      - "/**/*.js"
+      - "/**/*.css"
+      - "/**/*.png"
+      - "/**/*.ico"
+      - "/webjars/springfox-swagger-ui/**"
+      - "/actuator/**"
+      - "/sys-auth/oauth/token"
+      - "/sys-auth/rsa/publicKey"
+      - "/sys-search/**"
+      - "/sys-user/admin/login/**"
+      - "/sys-user/admin/register"
+      - "/sys-user/admin/code"
+      - "/sys-user/company/**"

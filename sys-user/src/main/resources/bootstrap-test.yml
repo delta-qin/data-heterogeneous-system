@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://ip:8848
+      config:
+        server-addr: http://ip:8848
+        file-extension: yaml
+  devtools: #热部署生效
+    restart:
+      enabled: true
+      additional-paths: src/main/java #设置重启的目录
+  redis:
+    host: localhost # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+#    password: deltaqin  # Redis服务器连接密码（默认为空）
+    timeout: 5000ms # 连接超时时间（毫秒）

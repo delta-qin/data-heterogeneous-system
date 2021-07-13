@@ -1,0 +1,20 @@
+server:
+  port: 8041
+
+spring:
+  application:
+    name: sys-springbootadmin-server
+  boot:
+    admin:
+      ui:
+        title: ${spring.application.name}
+  security:
+    user:
+      name: deltaqin
+      password: deltaqin
+  devtools: #热部署生效
+    restart:
+      enabled: true
+      additional-paths: src/main/java #设置重启的目录
+
+

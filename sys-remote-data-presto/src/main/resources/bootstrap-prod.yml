@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://ip:32925
+      config:
+        server-addr: http://ip:32925
+        file-extension: yaml

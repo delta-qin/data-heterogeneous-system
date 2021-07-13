@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deltaqin.sys.user.dao.SysLoginLogDao">
+    <resultMap id="LoginLogMap" type="com.deltaqin.sys.user.dto.LoginLog">
+        <result column="login_time" jdbcType="DATE" property="loginTime" />
+        <result column="count" jdbcType="INTEGER" property="count" />
+    </resultMap>
+
+    <resultMap id="SysLoginRegion" type="com.deltaqin.sys.user.dto.SysLoginRegion">
+        <result column="address" jdbcType="VARCHAR" property="name" />
+        <result column="counts" jdbcType="INTEGER" property="value" />
+    </resultMap>
+
+    <select id="getLoginLog" resultMap="LoginLogMap">
+        SELECT * FROM
+        (SELECT DATE(create_time) as login_time , COUNT(*) as count
+        FROM sys_admin_login_log
+        WHERE admin_id = #{id} and cid = #{cid}
+        GROUP BY DATE(sys_admin_login_log.create_time)) ar
+        ORDER BY ar.login_time desc LIMIT  20
+    </select>
+
+    <select id="getRegion" resultMap="SysLoginRegion">
+        SELECT address, COUNT(*) as counts
+        FROM sys_admin_login_log WHERE admin_id = #{id}
+        GROUP BY address
+    </select>
+</mapper>

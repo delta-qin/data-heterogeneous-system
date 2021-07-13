@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://ip:8848
+      config:
+        server-addr: http://ip:8848
+        file-extension: yaml
+  devtools: #热部署生效
+    restart:
+      enabled: true
+      additional-paths: src/main/java #设置重启的目录

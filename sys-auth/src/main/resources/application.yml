@@ -1,0 +1,39 @@
+server:
+  port: 8002
+
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8041
+        username: deltaqin
+        password: deltaqin
+
+  info:
+    app:
+      name: ${spring.application.name}
+      description: "@project.description@"
+      version: "@project.version@"
+
+#  端点的监控机制也有很大不同，启用了不代表可以直接访问，还需要将其暴露出来
+#在 application.properties 文件中配置actuator的相关配置，其中info开头的属性，
+#  就是访问info端点中显示的相关内容，值得注意的是Spring Boot2.x中，默认只开放了info、health两个端点，
+#  剩余的需要自己通过配置management.endpoints.web.exposure.include属性来加载（有include自然就有exclude，不做详细概述了）。
+#  如果想单独操作某个端点可以使用management.endpoint.端点.enabled属性进行启用或禁用
+# 加载所有的端点/默认只加载了 info / health
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # 客户端的所有监控端点都暴露给SBA服务端；
+  endpoint:
+    health:
+      show-details: ALWAYS  # 总是展示详细的健康信息。
+
+# 开启okhttp作为feign的客户端
+feign:
+  okhttp:
+    enabled: true
+ribbon:
+  ConnectTimeout: 3000 #服务请求连接超时时间（毫秒）
+  ReadTimeout: 3000 #服务请求处理超时时间（毫秒）

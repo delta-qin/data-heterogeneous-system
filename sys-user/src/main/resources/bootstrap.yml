@@ -1,0 +1,13 @@
+spring:
+  profiles:
+#    active: prod
+    active: dev
+#    active: test
+
+  #spring:
+  #  profiles:
+  #    #    active: prod
+  #    #    active: dev
+  #    active: test
+  application:
+    name: sys-user

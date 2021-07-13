@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deltaqin.sys.mapper.SysRemoteDatabaseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.deltaqin.sys.model.SysRemoteDatabaseInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="cid" jdbcType="BIGINT" property="cid" />
+    <result column="db_url" jdbcType="VARCHAR" property="dbUrl" />
+    <result column="db_user" jdbcType="VARCHAR" property="dbUser" />
+    <result column="db_password" jdbcType="VARCHAR" property="dbPassword" />
+    <result column="db_description" jdbcType="VARCHAR" property="dbDescription" />
+    <result column="type_id" jdbcType="BIGINT" property="typeId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cid, db_url, db_user, db_password, db_description, type_id
+  </sql>
+  <select id="selectByExample" parameterType="com.deltaqin.sys.model.SysRemoteDatabaseInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_remote_database_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_remote_database_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_remote_database_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deltaqin.sys.model.SysRemoteDatabaseInfoExample">
+    delete from sys_remote_database_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deltaqin.sys.model.SysRemoteDatabaseInfo" keyProperty="id" useGeneratedKeys="true">
+<!--    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">-->
+<!--      SELECT LAST_INSERT_ID()-->
+<!--    </selectKey>-->
+    insert into sys_remote_database_info (cid, db_url, db_user,
+      db_password, db_description, type_id
+      )
+    values (#{cid,jdbcType=BIGINT}, #{dbUrl,jdbcType=VARCHAR}, #{dbUser,jdbcType=VARCHAR},
+      #{dbPassword,jdbcType=VARCHAR}, #{dbDescription,jdbcType=VARCHAR}, #{typeId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.deltaqin.sys.model.SysRemoteDatabaseInfo" keyProperty="id" useGeneratedKeys="true">
+<!--    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">-->
+<!--      SELECT LAST_INSERT_ID()-->
+<!--    </selectKey>-->
+    insert into sys_remote_database_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="dbUrl != null">
+        db_url,
+      </if>
+      <if test="dbUser != null">
+        db_user,
+      </if>
+      <if test="dbPassword != null">
+        db_password,
+      </if>
+      <if test="dbDescription != null">
+        db_description,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        #{cid,jdbcType=BIGINT},
+      </if>
+      <if test="dbUrl != null">
+        #{dbUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="dbUser != null">
+        #{dbUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dbPassword != null">
+        #{dbPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="dbDescription != null">
+        #{dbDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deltaqin.sys.model.SysRemoteDatabaseInfoExample" resultType="java.lang.Long">
+    select count(*) from sys_remote_database_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_remote_database_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=BIGINT},
+      </if>
+      <if test="record.dbUrl != null">
+        db_url = #{record.dbUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dbUser != null">
+        db_user = #{record.dbUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dbPassword != null">
+        db_password = #{record.dbPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dbDescription != null">
+        db_description = #{record.dbDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_remote_database_info
+    set id = #{record.id,jdbcType=BIGINT},
+      cid = #{record.cid,jdbcType=BIGINT},
+      db_url = #{record.dbUrl,jdbcType=VARCHAR},
+      db_user = #{record.dbUser,jdbcType=VARCHAR},
+      db_password = #{record.dbPassword,jdbcType=VARCHAR},
+      db_description = #{record.dbDescription,jdbcType=VARCHAR},
+      type_id = #{record.typeId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deltaqin.sys.model.SysRemoteDatabaseInfo">
+    update sys_remote_database_info
+    <set>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=BIGINT},
+      </if>
+      <if test="dbUrl != null">
+        db_url = #{dbUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="dbUser != null">
+        db_user = #{dbUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dbPassword != null">
+        db_password = #{dbPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="dbDescription != null">
+        db_description = #{dbDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deltaqin.sys.model.SysRemoteDatabaseInfo">
+    update sys_remote_database_info
+    set cid = #{cid,jdbcType=BIGINT},
+      db_url = #{dbUrl,jdbcType=VARCHAR},
+      db_user = #{dbUser,jdbcType=VARCHAR},
+      db_password = #{dbPassword,jdbcType=VARCHAR},
+      db_description = #{dbDescription,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

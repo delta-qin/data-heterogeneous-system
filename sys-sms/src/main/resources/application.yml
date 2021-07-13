@@ -1,0 +1,44 @@
+server:
+  port: 8000
+
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8041
+        username: deltaqin
+        password: deltaqin
+    info:
+      app:
+        name: ${spring.application.name}
+        description: "@project.description@"
+        version: "@project.version@"
+  rabbitmq:
+    host: ip
+    port: 5672
+    username: deltaqin
+    password: deltaqin
+    virtual-host: /
+
+management: #开启SpringBoot Admin的监控
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+sys:
+  sms:
+    accessKeyId:  # accessKeyId
+    accessKeySecret:  # AccessKeySecret
+    signName: deltaqin # 签名名称
+    verifyCodeTemplate: SMS_202546973 # 模板名称
+
+predict:
+  sms:
+    accessKeyId:   # accessKeyId
+    accessKeySecret:   # AccessKeySecret
+    signName: SCUclub # 签名名称
+    verifyCodeTemplate: SMS_204735191  # 模板名称
